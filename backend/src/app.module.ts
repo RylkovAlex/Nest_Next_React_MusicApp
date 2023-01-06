@@ -7,7 +7,7 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRoot('mongodb+srv://admin:admin@cluster0.iygetib.mongodb.net/music-test?retryWrites=true&w=majority'),
     TrackModule,
     AlbumModule,
   ],
