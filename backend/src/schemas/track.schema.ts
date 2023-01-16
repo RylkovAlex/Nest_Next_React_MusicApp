@@ -7,11 +7,14 @@ export type TrackDocument = Mongoose.HydratedDocument<Track>;
 
 @Schema()
 export class Track {
-  @Prop()
+  @Prop({ required: [true, 'Track name is required'] })
   name: string;
 
-  @Prop()
+  @Prop({ required: [true, 'Artist is required'] })
   artist: string;
+
+  @Prop()
+  text: string;
 
   @Prop()
   listens: number;
