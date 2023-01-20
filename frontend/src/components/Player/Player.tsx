@@ -43,7 +43,7 @@ const Player: React.FC = (props) => {
 
   const setAudio = (audio: HTMLAudioElement) => {
     if (active) {
-      audio.src = active.audio;
+      audio.src = 'http://localhost:5000/' + active.audio;
       audio.volume = volume / 100;
       audio.onloadedmetadata = () => {
         setTrackDuration(Math.ceil(audio!.duration));

@@ -3,7 +3,7 @@ import React from 'react';
 
 const About = () => {
   return (
-    <MainLayout>
+    <MainLayout title={'About'}>
       <h1>About</h1>
       <p>This app was created by <a style={{textDecoration: 'none', color: '#1976d2'}}href='https://github.com/rylkovalex'>RylkovAlex</a> based on a youtube tutorial from Timur Ulbi</p>
 

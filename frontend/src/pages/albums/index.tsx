@@ -3,7 +3,7 @@ import React from 'react';
 
 const Albums = () => {
   return (
-    <MainLayout>
+    <MainLayout title={'Albums'}>
       <div>Albums page</div>
     </MainLayout>
   );

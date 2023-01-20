@@ -1,24 +1,40 @@
 import TrackList from '@/components/TrackList/TrackList';
-import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import MainLayout from '@/layouts/MainLayout';
 import { NextThunkDispatch, wrapper } from '@/store';
-import { fetchTracks } from '@/store/action-creators/track';
-import { ITrack } from '@/types/ITrack';
-import { Box, Button, Card, Grid } from '@mui/material';
-import { GetServerSideProps } from 'next';
+import { fetchTracks, searchTracks } from '@/store/action-creators/track';
+import { Box, Button, Card, Grid, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { shallowEqual } from 'react-redux';
 
 const Index = () => {
   const router = useRouter();
+  const dispatch = useDispatch() as NextThunkDispatch;
+
   const { tracks, error } = useTypedSelector(
     (state) => state.track,
     shallowEqual
   );
+  const [timer, setTimer] = useState<ReturnType<typeof setTimeout> | null>(
+    null
+  );
 
-  useEffect(() => console.log(tracks), [tracks]);
+  const [query, setQuery] = useState('');
+
+  const search = async ({
+    target: { value },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(value);
+    if (timer) {
+      clearTimeout(timer);
+    }
+    setTimer(
+      setTimeout(async () => await dispatch(await searchTracks(value)), 500)
+    );
+  };
+
   /*   const tracks: ITrack[] = [
     {
       _id: '1',
@@ -48,12 +64,13 @@ const Index = () => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout title={'Tracks'}>
       <Grid container justifyContent="center">
         <Card style={{ width: 900 }}>
           <Box p={3}>
             <Grid container justifyContent="space-between">
               <h1>Tracks</h1>
+              <TextField fullWidth value={query} onChange={search}></TextField>
               <TrackList tracks={tracks} />
             </Grid>
             <Button
@@ -81,8 +98,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ req, res, ...etc }) => {
       const dispatch = store.dispatch as NextThunkDispatch;
-      const tracks = await dispatch(fetchTracks());
+      await dispatch(fetchTracks());
 
-      return { props: {tracks} };
+      return { props: {} };
     }
 );

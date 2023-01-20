@@ -19,7 +19,6 @@ export const trackReducer = (
     case TrackActionTypes.FETCH_TRACKS_OK:
       return { error: '', tracks: action.payload };
     default:
-      console.log('default');
       return state;
   }
 };

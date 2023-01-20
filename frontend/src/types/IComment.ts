@@ -1,6 +1,6 @@
 export interface IComment {
   _id: string;
-  userName: string;
+  user_name: string;
   text: string;
   trackId: string;
 }
