@@ -23,3 +23,5 @@ import * as path from 'path';
   providers: [AppService],
 })
 export class AppModule {}
+
+console.log({'path': __dirname})

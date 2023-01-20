@@ -17,10 +17,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
-import AddIcon from '@mui/icons-material/Add';
-import InfoIcon from '@mui/icons-material/Info';
+import AlbumIcon from '@mui/icons-material/Album';import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';import InfoIcon from '@mui/icons-material/Info';
 import { useRouter } from 'next/router';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material';
@@ -40,17 +38,17 @@ const upperMenuItems: Menuitem[] = [
   {
     text: 'Tracks',
     href: '/tracks',
-    Icon: PlayArrowIcon,
+    Icon: LibraryMusicIcon,
   },
   {
     text: 'Albums',
     href: '/albums',
-    Icon: LibraryMusicIcon,
+    Icon: AlbumIcon,
   },
   {
     text: 'Add track',
     href: '/tracks/create',
-    Icon: AddIcon,
+    Icon: PlaylistAddCircleIcon,
   },
 ];
 

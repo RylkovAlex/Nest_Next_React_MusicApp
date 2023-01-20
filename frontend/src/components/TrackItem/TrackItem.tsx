@@ -1,32 +1,47 @@
 import { ITrack } from '@/types/ITrack';
 import { Card, Grid, IconButton } from '@mui/material';
 import React from 'react';
-import styles from '@/styles/TrackItem.module.scss';
+import styles from './TrackItem.module.scss';
 import { Pause, PlayArrow, Delete } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import { useActions } from '@/hooks/useActions';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 
 interface TrackItemProps {
   track: ITrack;
   active?: boolean;
 }
 
-const TrackItem: React.FC<TrackItemProps> = ({ track, active = false }) => {
+const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
   const router = useRouter();
+  const { playTrack, pauseTrack, setTrack } = useActions();
+  const { pause, active } = useTypedSelector((state) => state.player);
+
+  const play = (evt: React.SyntheticEvent<HTMLButtonElement>) => {
+    evt.stopPropagation();
+    if (active?._id !== track._id) {
+      setTrack(track);
+    }
+    if (pause) {
+      playTrack();
+    } else {
+      pauseTrack();
+    }
+  };
 
   return (
     <Card
       className={styles.trackCard}
       onClick={() => router.push('/tracks/' + track._id)}
     >
-      <IconButton onClick={(evt) => evt.stopPropagation()}>
-        {active ? <Pause /> : <PlayArrow />}
+      <IconButton onClick={play}>
+        {pause ? <PlayArrow /> : <Pause />}
       </IconButton>
-      <img width={70} height={70} src={track.picture} />
+      <img width={70} height={70} src={'http://localhost:5000/' + track.picture} />
       <Grid container direction="column" className={styles.trackInfo}>
         <div className={styles.trackName}>{track.name}</div>
         <div className={styles.trackArtist}>{track.artist}</div>
       </Grid>
-      {active && <div>02:42 / 03:00</div>}
       <IconButton
         onClick={(evt) => evt.stopPropagation()}
         className={styles.deleteButton}

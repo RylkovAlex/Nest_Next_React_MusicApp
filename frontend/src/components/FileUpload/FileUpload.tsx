@@ -1,5 +1,5 @@
-import { Button } from '@mui/material';
 import React, { useRef } from 'react';
+import styles from './FileUpload.module.scss'
 
 interface FileUploadProps {
   setFile: Function;
@@ -19,10 +19,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
   };
   return (
     <div onClick={() => ref.current?.click()}>
-      <input
+      <input className={styles.fileInput}
         type="file"
         accept={accept}
-        style={{ display: 'none' }}
         ref={ref}
         onChange={onChange}
       />

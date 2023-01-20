@@ -26,18 +26,19 @@ export class TrackService {
     // console.log({dto, picture, audio});
     const audioPath = this.fileService.createFile(FileType.AUDIO, audio);
     const imagePath = this.fileService.createFile(FileType.IMAGE, picture);
-    return await this.trackModel.create({
+    await this.trackModel.create({
       ...dto,
       listens: 0,
       audio: audioPath,
       picture: imagePath,
     });
+    return;
   }
   async getAll(limit = 10, offset = 0): Promise<Track[]> {
     return await this.trackModel.find().skip(offset).limit(limit);
   }
   async getOne(id: string): Promise<Track> {
-    checkId(id)
+    checkId(id);
     return await this.trackModel.findById(id).populate('comments');
   }
   async search(query): Promise<Track[]> {

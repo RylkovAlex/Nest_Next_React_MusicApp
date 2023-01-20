@@ -1,7 +1,7 @@
 import { ITrack } from '@/types/ITrack';
 import { Box, Grid } from '@mui/material';
 import React from 'react';
-import TrackItem from './TrackItem';
+import TrackItem from '../TrackItem/TrackItem';
 
 interface TrackListProps {
   tracks: ITrack[];
