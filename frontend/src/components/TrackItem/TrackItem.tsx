@@ -29,15 +29,24 @@ const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
     }
   };
 
+  const renderPlayIcon = () => {
+    if (active?._id !== track._id) {
+      return <PlayArrow />;
+    }
+    return pause ? <PlayArrow /> : <Pause />;
+  };
+
   return (
     <Card
       className={styles.trackCard}
       onClick={() => router.push('/tracks/' + track._id)}
     >
-      <IconButton onClick={play}>
-        {pause ? <PlayArrow /> : <Pause />}
-      </IconButton>
-      <img width={70} height={70} src={'http://localhost:5000/' + track.picture} />
+      <IconButton onClick={play}>{renderPlayIcon()}</IconButton>
+      <img
+        width={70}
+        height={70}
+        src={'http://localhost:5000/' + track.picture}
+      />
       <Grid container direction="column" className={styles.trackInfo}>
         <div className={styles.trackName}>{track.name}</div>
         <div className={styles.trackArtist}>{track.artist}</div>

@@ -20,17 +20,14 @@ const Player: React.FC = (props) => {
       audio = new Audio();
     } else if (active) {
       setAudio(audio);
-      playTrack();
-      audio.play();
+      if (!pause) {
+        playTrack();
+      }
     }
-  }, [active]);
+  }, [active?.audio]);
 
   useEffect(() => {
-    if (pause) {
-      audio?.pause();
-    } else {
-      audio?.play();
-    }
+    pause ? audio?.pause() : audio?.play();
   }, [pause]);
 
   const {
@@ -42,8 +39,12 @@ const Player: React.FC = (props) => {
   } = useActions();
 
   const setAudio = (audio: HTMLAudioElement) => {
-    if (active) {
-      audio.src = 'http://localhost:5000/' + active.audio;
+    if (!active) {
+      return pauseTrack();
+    }
+    const src = 'http://localhost:5000/' + active.audio;
+    if (audio.src !== src) {
+      audio.src = src;
       audio.volume = volume / 100;
       audio.onloadedmetadata = () => {
         setTrackDuration(Math.ceil(audio!.duration));
@@ -52,16 +53,15 @@ const Player: React.FC = (props) => {
         setTarckCurrentTime(Math.ceil(audio!.currentTime));
       };
     }
+    pause ? audio?.pause() : audio?.play();
   };
 
   const play = (evt: React.SyntheticEvent<HTMLButtonElement>) => {
     evt.stopPropagation();
     if (pause) {
       playTrack();
-      // audio?.play();
     } else {
       pauseTrack();
-      // audio?.pause();
     }
   };
   const mute = (evt: React.SyntheticEvent<HTMLButtonElement>) => {
