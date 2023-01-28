@@ -1,0 +1,43 @@
+version: '3.0'
+
+services:
+  api_backend:
+    container_name: api_backend
+    build:
+      context: ./api_backend
+    environment:
+      - DOCKER=true
+    volumes:
+      - /app/node_modules
+      - ./api_backend:/app
+    ports:
+      - 127.0.0.1:5000:5000
+      - 9229:9229
+    command: npm run start:dev
+    depends_on:
+      - mongo
+    restart: always
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    restart: always
+
+  ssr_client:
+    container_name: client
+    build:
+      context: ./ssr_client
+    environment:
+      - DOCKER=true
+    volumes:
+      - /app/node_modules
+      - /app/.next
+      - ./ssr_client:/app
+    depends_on:
+      - api_backend
+    ports:
+      - 127.0.0.1:3000:3000
+    command: npm run dev
+    restart: always
